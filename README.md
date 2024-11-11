@@ -88,9 +88,12 @@ docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
 # Deployment Stages:
  ![image](https://github.com/user-attachments/assets/da872659-3bd5-4ec3-9e74-c952885d86d2)
 
+# Jenkins Stage-View:
+![stage](https://github.com/harshitsahu2311/Amazon-Prime-Clone-App/blob/main/Pictures/post%20image.png)
 
 
-# Jenkins Complete pipeline
+
+## Jenkins Complete pipeline
 ```
 pipeline {
     agent any
