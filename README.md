@@ -19,7 +19,7 @@
   </tr>
 </table>
 
-# Install all prerequisite
+# Install all prerequisites
 
 
 
