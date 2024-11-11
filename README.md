@@ -1,28 +1,17 @@
-# Deploy Amazon Prime Clone Application AWS using DevSecOps Approach
+# ☸️ Deploy Amazon Prime Clone Application AWS using DevSecOps Approach 🐳
 
-![image](https://github.com/user-attachments/assets/b3db1dc0-5a59-4dcf-9507-b0aeebc7f514)
-
-## Project Videos
+![image](https://github.com/harshitsahu2311/Amazon-Prime-Clone-App/blob/main/Pictures/End%20(1).gif)
+## Project Blogs
 <table>
   <tr>
     <td>
-      <a href="https://youtu.be/RDiza4DcGs8?si=w1Y_xL1NBj6eeWgc" target="_blank">
-        <img src="https://ytcards.demolab.com/?id=RDiza4DcGs8&title=Your+New+Video+Title+Here&lang=en&timestamp=0&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5" alt="Your New Video Title Here" width="250" style="border-radius:5px;">
+      <a href="https://harshitsahu2311.hashnode.dev/project-end-to-end-cicd-pipeline-of-amazon-prime-clone" target="_blank">
+        <img src="https://ytcards.demolab.com/?id=RDiza4DcGs8&title=Blog+of+Amazon+Prime+Clone&lang=en&timestamp=0&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5" alt="Your New Video Title Here" width="250" style="border-radius:5px;">
       </a>
     </td>
-    <td>
-      <a href="https://www.youtube.com/watch?v=DACa2_JmVhE&t=598s" target="_blank">
-        <img src="https://ytcards.demolab.com/?id=ZzNP0P35Kio&title=Deploy+Amazon+Prime+Video+Clone+On+EKS+Cluster&lang=en&timestamp=0&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5" alt="Deploy Amazon Prime Video Clone On EKS Cluster" width="250" style="border-radius:5px;">
-      </a>
-    </td>
-    <td>
-      <a href="https://www.youtube.com/watch?v=ZzNP0P35Kio&t=1094s" target="_blank">
-        <img src="https://ytcards.demolab.com/?id=JIkr2VoY960&title=Deploy+Amazon+Prime+Video+Clone+On+Kind+Cluster&lang=en&timestamp=0&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5" alt="Deploy Amazon Prime Video Clone On Kind Cluster" width="250" style="border-radius:5px;">
-      </a>
-    </td>
-    <td>
-      <a href="https://www.youtube.com/watch?v=_FH2j3GB8PA&t=83s" target="_blank">
-        <img src="https://ytcards.demolab.com/?id=_FH2j3GB8PA&title=Deploy+Amazon+Prime+Video+Clone+On+EKS+Cluster&lang=en&timestamp=0&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5" alt="Deploy Amazon Prime Video Clone On EKS Cluster" width="250" style="border-radius:5px;">
+     <td>
+      <a href="https://harshitsahu2311.hashnode.dev/project-automate-the-deployment-of-amazon-prime-video-clone" target="_blank">
+        <img src="https://ytcards.demolab.com/?id=ZzNP0P35Kio&title=Deploy+Amazon+Prime+Clone+On+local&lang=en&timestamp=0&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5" alt="Deploy Amazon Prime Video Clone On EKS Cluster" width="250" style="border-radius:5px;">
       </a>
     </td>
   </tr>
@@ -30,9 +19,11 @@
   </tr>
 </table>
 
+# Install all prerequisite
 
 
-# **Install AWS CLI**
+
+## **Install AWS CLI**
 ```
 sudo apt install unzip -y
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -40,7 +31,7 @@ unzip awscliv2.zip
 sudo ./aws/install
 ```
  
-# **Install Jenkins on Ubuntu:**
+## **Install Jenkins on Ubuntu:**
 
 ```
 #!/bin/bash
@@ -58,8 +49,7 @@ sudo systemctl start jenkins
 sudo systemctl status jenkins
 ```
 
-
-# **Install Docker on Ubuntu:**
+## **Install Docker on Ubuntu:**
 ```
 # Add Docker's official GPG key:
 sudo apt-get update
@@ -80,7 +70,7 @@ newgrp docker
 sudo systemctl status docker
 ```
 
-# **Install Trivy on Ubuntu:**
+## **Install Trivy on Ubuntu:**
 
 Reference Doc: https://aquasecurity.github.io/trivy/v0.55/getting-started/installation/
 ```
@@ -90,14 +80,15 @@ echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.
 sudo apt-get update
 sudo apt-get install trivy
 ```
-
-# Deployment Stages:
- ![image](https://github.com/user-attachments/assets/da872659-3bd5-4ec3-9e74-c952885d86d2)
-
 ## Sonarqube Setup On Docker
 ```
 docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
 ```
+
+# Deployment Stages:
+ ![image](https://github.com/user-attachments/assets/da872659-3bd5-4ec3-9e74-c952885d86d2)
+
+
 
 # Jenkins Complete pipeline
 ```
@@ -105,7 +96,11 @@ pipeline {
     agent any
 
     tools {
+        jdk 'jdk17'
         nodejs 'node16' // Ensure 'node16' is configured in Jenkins under Manage Jenkins > Global Tool Configuration
+    }
+    environment {
+        SCANNER_HOME = tool 'sonar'
     }
 
     stages {
@@ -115,19 +110,27 @@ pipeline {
             }
         }
 
+
         stage('Git Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Fir3eye/Prime-Video-Clone.git'
+                git branch: 'main', url: 'https://github.com/harshitsahu2311/Amazon-Prime-Clone-App.git'
             }
         }
         stage("Sonarqube Analysis") {
             steps {
-                withSonarQubeEnv('sonar-scanner') {
+                withSonarQubeEnv('sonar') {
                     sh '''
                         $SCANNER_HOME/bin/sonar-scanner \
                         -Dsonar.projectName=prime-clone \
                         -Dsonar.projectKey=prime-clone
                     '''
+                }
+            }
+        }
+        stage("quality gate") {
+            steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-cred'
                 }
             }
         }
@@ -146,55 +149,53 @@ pipeline {
         }
         stage ("Trivy Image Scan") {
             steps {
-                sh "trivy image fir3eye/prime-clone:latest"
+                sh "trivy image prime-clone:latest"
             }
         }
         stage('Tag & Push to DockerHub') {
             steps {
                 script {
-                    withDockerRegistry([ credentialsId: 'dockerhub', url: '' ]) {
-                        sh "docker tag prime-clone:latest fir3eye/prime-clone:latest"
-                        sh "docker push fir3eye/prime-clone:latest"
+                    withDockerRegistry(credentialsId: 'docker-cred') {
+                        sh "docker tag prime-clone:latest harshitsahu2311/prime-clone:latest"
+                        sh "docker push harshitsahu2311/prime-clone:latest"
                     }
                 }
             }
         }
-        stage ("Deploy to Container") {
-            steps {
-                sh 'docker run -d --name amazon-prime -p 80:80 fir3eye/prime-clone:latest'
-            }
-        }
-        stage('Deploy to Kubernetes') {
+        stage ("Deploy to Kubernetes") {
             steps {
                 script {
-                    withCredentials([file(credentialsId: 'k8s', variable: 'KUBECONFIG_FILE')]) {
+                    withCredentials([file(credentialsId: 'kuber-cred', variable: 'KUBECONFIG_FILE')]) {
                         sh """
                             # Set the KUBECONFIG environment variable
                             export KUBECONFIG=${KUBECONFIG_FILE}
-                            
+
                             # Navigate to the Kubernetes manifests directory
                             cd Kubernetes
-                            
+
                             # Apply all Kubernetes manifests
                             kubectl apply -f .
-                            
+
                         """
                     }
                 }
             }
+
         }
     }
-    post {
-        success {
+
+}
+post {
+    success {
             echo '✅ Deployment successful!'
             // Optional: Add notifications (e.g., email, Slack) here
-        }
-        failure {
+    }
+    failure {
             echo '❌ Deployment failed.'
             // Optional: Add notifications (e.g., email, Slack) here
-        }
     }
-}
+    }
+
 
 ```
 **Phase 4: Monitoring**
