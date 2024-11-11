@@ -18,7 +18,7 @@ spec:
         app: prime-deploy
     spec:
       containers:
-      - image: fir3eye/prime-clone:latest
+      - image: harshitsahu2311/prime-clone:latest
         name: prime
         ports:
         - containerPort: 80
